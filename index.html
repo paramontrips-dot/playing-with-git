@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For You</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #2C2C2C; /* Soft Charcoal */
+            --rose-gold: #E0A9A5; /* Luminous Rose Gold */
+        }
+
+        body, html {
+            height: 100%;
+            margin: 0;
+            background-color: var(--bg-color);
+            overflow: hidden;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .container-fluid {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        /* Gradient effect on text to simulate metallic sheen */
+        .love-text {
+            color: var(--rose-gold);
+            font-size: 5.5rem;
+            font-weight: 400;
+            font-style: italic;
+            letter-spacing: 2px;
+            z-index: 10;
+            text-align: center;
+            animation: softGlow 5s ease-in-out infinite;
+            cursor: default;
+            user-select: none;
+        }
+
+        @keyframes softGlow {
+            0%, 100% { 
+                opacity: 0.7; 
+                transform: translateY(0);
+                text-shadow: 0 0 10px rgba(224, 169, 165, 0.2);
+            }
+            50% { 
+                opacity: 1; 
+                transform: translateY(-5px);
+                text-shadow: 0 0 30px rgba(224, 169, 165, 0.6);
+            }
+        }
+
+        /* Falling Rose Petal-like Particles */
+        .petal {
+            position: absolute;
+            background-color: var(--rose-gold);
+            border-radius: 50% 0 50% 50%; /* Petal shape */
+            opacity: 0.2;
+            pointer-events: none;
+        }
+
+        @media (max-width: 768px) {
+            .love-text {
+                font-size: 3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container-fluid">
+        <h1 class="love-text">I Love You</h1>
+    </div>
+
+    <script>
+        function createPetal() {
+            const petal = document.createElement('div');
+            petal.classList.add('petal');
+            
+            // Randomize size and rotation
+            const size = Math.random() * 8 + 5 + 'px';
+            petal.style.width = size;
+            petal.style.height = size;
+            petal.style.transform = `rotate(${Math.random() * 360}deg)`;
+            
+            petal.style.top = '-20px';
+            petal.style.left = Math.random() * 100 + 'vw';
+            
+            document.body.appendChild(petal);
+
+            // Animate falling and swaying
+            const duration = Math.random() * 5000 + 5000;
+            const horizontalSway = (Math.random() - 0.5) * 200;
+            
+            const animation = petal.animate([
+                { top: '-20px', left: petal.style.left, opacity: 0.4 },
+                { top: '110vh', left: `calc(${petal.style.left} + ${horizontalSway}px)`, opacity: 0 }
+            ], {
+                duration: duration,
+                easing: 'ease-in'
+            });
+
+            animation.onfinish = () => petal.remove();
+        }
+
+        // Generate petals slowly for a calm feel
+        setInterval(createPetal, 600);
+    </script>
+</body>
+</html>
