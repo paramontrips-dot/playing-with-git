@@ -90,12 +90,31 @@
                 font-size: 3rem;
             }
         }
+
+        /* Ripple Styling */
+.ripple {
+    position: absolute;
+    border: 1.5px solid var(--rose-gold); /* Using your existing variable */
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    animation: rippleEffect 5s cubic-bezier(0, 0.3, 0.5, 1) forwards;
+    z-index: 5;
+}
+
+@keyframes rippleEffect {
+    from { width: 0; height: 0; opacity: 0.8; }
+    to { width: 600px; height: 600px; opacity: 0; border-width: 0.1px; }
+}
+
+/* Optional: Prevent mobile zoom/flicker when tapping */
+body { touch-action: none; }
     </style>
 </head>
 <body>
 
     <div class="container-fluid">
-        <h1 class="love-text">Next date ki eppudu veldham Shraab ?</h1>
+        <h1 class="love-text">I Love You Shraab</h1>
     </div>
 
     <script>
@@ -135,6 +154,28 @@
 
         // Generate hearts slowly to maintain elegance
         setInterval(createHeart, 500);
+
+        // Function to create and position the ripple
+function createRipple(e) {
+    const ripple = document.createElement('div');
+    ripple.classList.add('ripple');
+    
+    // Supports both Mouse clicks and Mobile touches
+    const x = e.touches ? e.touches[0].clientX : e.clientX;
+    const y = e.touches ? e.touches[0].clientY : e.clientY;
+    
+    ripple.style.left = `${x}px`;
+    ripple.style.top = `${y}px`;
+    
+    document.body.appendChild(ripple);
+
+    // Remove the element after animation finishes to keep the site fast
+    setTimeout(() => ripple.remove(), 8000);
+}
+
+// Listeners for interaction
+window.addEventListener('mousedown', createRipple);
+window.addEventListener('touchstart', createRipple);
     </script>
 </body>
 </html>
